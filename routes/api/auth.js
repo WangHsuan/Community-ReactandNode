@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 //@Route GET api/auth
-//@desc Test route
+//@desc  Get user by token
 //@access Public
 
 router.get('/',auth,async (req,res)=>{

@@ -48,11 +48,10 @@ router.post('/',[
             password
         })
 
-        //console.log('userTest',user);
-
         //Encrypt password 
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(password,salt);
+        //存到mongodb裡面
         await user.save();
         
         const payload = {
@@ -72,9 +71,7 @@ router.post('/',[
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
-    }
-    
-    
+    }    
 });
 
 module.exports = router;
