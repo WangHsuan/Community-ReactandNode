@@ -1,4 +1,4 @@
-import {GET_PROFILE, PROFILE_ERROR} from '../actions/type';
+import {GET_PROFILE, PROFILE_ERROR, CLEAR_PROFILE} from '../actions/type';
 
 const initialState = {
     profile:null,
@@ -9,6 +9,7 @@ const initialState = {
 }
 export default function(state = initialState, action){
     const {type, payload} = action;
+    console.log('payload',payload);
     switch(type){
         case GET_PROFILE:
             return {
@@ -22,6 +23,13 @@ export default function(state = initialState, action){
                 error:payload,
                 loading:false
             };
+        case CLEAR_PROFILE:
+            return{
+                ...state, 
+                profile: null, 
+                repos:[],
+                loading:false
+            }
         default:
             return state;
     }
