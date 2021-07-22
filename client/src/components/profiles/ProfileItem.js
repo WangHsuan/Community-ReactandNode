@@ -1,5 +1,26 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+//Material ui
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    width:'45rem',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  large: {
+    width: theme.spacing(9),
+    height: theme.spacing(9),
+  },
+}));
 
 const ProfileItem = ({
     profile:{
@@ -10,26 +31,39 @@ const ProfileItem = ({
         skills
 
 }}) => {
+    const classes = useStyles();
     return (
-        <div className='profile bg-light'>
-           <img src={avatar} alt='' className='round-img'/> 
-           <div>
-            <h2>{name}</h2>
-            <p>
-            {status} {company && <span> at {company}</span>}
-            </p>
-            <p className='my-1'>{location && <span>{location}</span>}</p>
-            <Link to={`/profile/${_id}`} className='btn btn-primary'>View Profile</Link>
-           </div>
-           <ul>
-            {skills.slice(0,4).map((skill, index) => (
-                <li key={index} className='text-primary'>
-                    <i className='fa fa-check'>{skill}</i>
-                </li>
-            )
-            )}
-           </ul>
-        </div>
+       
+            <Grid container className={classes.root} alignItems='center'>
+                <Grid item xs={2}> <Avatar src={avatar} alt='' className={classes.large}/>  </Grid>
+                <Grid item xs={4}>
+                   <Typography variant='subtitle1'>{name}</Typography>
+               
+                    <Typography variant='body2'>
+                    {status} {company && <span> at {company}</span>}
+                    </Typography>
+                    <Typography variant='body2'>{location && <span>{location}</span>}</Typography>
+                    
+                </Grid>
+                <Grid item xs={4}>
+                <Button component={Link}  to={`/profile/${_id}`} variant='outlined' >View Profile</Button>
+                {/* <div className={classes.demo}>
+                    <List >
+                    {skills.slice(0,4).map((skill, index) => (
+                        <ListItem key={index} className='text-primary'>
+                            <ListItemText >{skill}</ListItemText>
+                        </ListItem>
+                    )
+                    )}
+                    
+                    </List>
+                </div> */}
+                </Grid>
+                <Grid item xs={12}>
+                    <Divider/>
+                </Grid>
+            </Grid>
+           
     )
 }
 

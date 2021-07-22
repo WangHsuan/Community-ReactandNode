@@ -3,72 +3,99 @@ import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {login} from '../../actions/auth';
+//formik
+import { Formik, Field } from 'formik';
+//Utils
+import * as Yup from 'yup';
+//material ui
+import Grid from '@material-ui/core/Grid';
+import { useStyles } from './styles/styledLogIn';
+import Typography from '@material-ui/core/Typography';
+//custom
+import { CustomTextField, CheckBox } from 'material-ui/input/input';
+import { CustomButton } from 'material-ui/button/CustomButton'
+
+const SignupSchema = Yup.object().shape({
+    email: Yup.string().email('Invalid email').required('Email is Required'),
+    password: Yup.string().required('Password is Required'),
+    declaration: Yup.boolean()
+        .oneOf([true], "You must accept the terms and conditions")
+});
 
 const Login = ({login, isAuthenticated}) => {
-    const [formData, setFormData] = useState({
-        email:'',
-        password:'',
-    });
-
-    const {email, password} = formData;
-
-    const onChange = e => setFormData({...formData, [e.target.name]:e.target.value});
-
-    const onSubmit = e => {
-        e.preventDefault();
-        login(email,password);
-        console.log(formData);
-        
-    }
-
+    const classes = useStyles();
+    const [error, setError] = useState('');
+    const [displayError, setDisplayError] = useState(false);
     //redirect if logged in
     if(isAuthenticated){
         return <Redirect to='/dashboard'/>
     }
-
     return (
-        <Fragment>
+        <div>
+            <Formik
+                initialValues={{ email: '', password: '', declaration: false }}
+                validationSchema={SignupSchema}
+                onSubmit={async (values) => {
+                    const { email, password} = values;
+                    
+                    login(email,password);
+                }}
 
-            <h1 className="large text-primary">Sign In</h1>
-            <p className="lead">
-                <i className="fas fa-user"></i> Sign into Your Account
-            </p>
-            <form className="form" onSubmit={e=>onSubmit(e)}>
-            <div className="form-group">
-                <input 
-                    type="email" 
-                    placeholder="Email Address" 
-                    name="email" 
-                    value={email} 
-                    onChange={e => onChange(e)}
-                    required
-                    />
-                <small className="form-text"
-                >This site uses Gravatar so if you want a profile image, use a
-                Gravatar email</small
-                >
-            </div>
-            <div className="form-group">
-                <input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    minLength="6"
-                    value={password} 
-                    onChange={e => onChange(e)}
-                    required
-                />
-            </div>
-           
-            <input type="submit" className="btn btn-primary" value="Login" />
-            </form>
-            <p className="my-1">
-            Don't have an account? <Link to="/register">Sign Up</Link>
-            </p>
-        
-        </Fragment>
+            >
+                {({
+                    values,
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                }) => (
+                    <form onSubmit={handleSubmit} className={classes.root} noValidate  >
+                        <Grid container spacing={3} justifyContent='center'>
+                            <Grid item xs={12}>
+                                <CustomTextField
+                                    type="email"
+                                    name="email"
+                                    label='Account'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.email}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <CustomTextField
+                                    type="password"
+                                    name="password"
+                                    label='Password'
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                {!displayError ? null : <Typography color='error' variant='caption'>{error}</Typography>}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <label>
+                                    <CheckBox type="checkbox" name="declaration" />
+
+                                </label>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <CustomButton type="submit" variant='outlined'>
+                                    Submit
+                                </CustomButton>
+                            </Grid>
+                            
+
+                        </Grid>
+
+
+                    </form>
+                )}
+            </Formik>
+        </div>
     )
 }
+
 
 Login.propTypes = {
     login:PropTypes.func.isRequired,

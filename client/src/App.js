@@ -17,17 +17,31 @@ import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
+//Pages
+import SignInAndSignUpPage from 'pages/auth/SignInAndSignUpPages'
 //Redux
 import {Provider} from 'react-redux';
 import store from './store';
-import setAuthToken from './utils/setAuthToken'
+import setAuthToken from './utils/setAuthToken';
+//material ui
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    marginTop:'2rem',
+  },
+  large: {
+    width: theme.spacing(9),
+    height: theme.spacing(9),
+  },
+}));
 
 if(localStorage.token){
   setAuthToken(localStorage.token);
 }
 
 const  App = () => {
-  
+  const classes = useStyles();
   useEffect(()=>{
     store.dispatch(loadUser());
   },[])
@@ -38,11 +52,11 @@ const  App = () => {
       <Fragment>
         <Navbar/>
         <Route exact path='/' component={Landing}/>
-        <section className='container'>
+        <section className={classes.root}>
         <Alert/>
           <Switch>
             <Route exact path='/register' component={Register}/>
-            <Route exact path='/login' component={Login}/>   
+            <Route exact path='/login' component={SignInAndSignUpPage}/>   
             <Route exact path='/profiles' component={Profiles}/>  
             <Route exact path='/profile/:id' component={Profile}/>   
             <PrivateRoute exact path='/dashboard' component={Dashboard}/>

@@ -8,27 +8,53 @@ import DashboardActions from './DashboardActions';
 import Experience from './Experience';
 import Education from './Education';
 import {deleteAccount} from '../../actions/profile';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    width:'45rem',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  large: {
+    width: theme.spacing(9),
+    height: theme.spacing(9),
+  },
+}));
 
 const Dashboard = ({getCurrentProfile, deleteAccount,auth:{user}, profile: {profile, loading}}) => {
     useEffect(()=>{
         getCurrentProfile();
-    },[getCurrentProfile]);
+    },[getCurrentProfile,user]);
 
     return loading && profile == null ? <Spinner/> : <Fragment>
-    <h1 className='large text-primary'>Dashboard</h1>
-    <p className='lead'>
-    <i className='fa fa-user'></i> Welcome {user&&user.name}
-    </p>
-    {profile!==null?(<Fragment>
-        <DashboardActions/>
-        <Experience experience={profile.experience}/>
-        <Education education={profile.education}/>
-        <div className='my-2'>
-            <button className='btn btn-danger' onClick={()=>deleteAccount()}>
+    
+    {profile!==null?(<Grid container direction='column' alignItems='center' justifyContent='center' spacing={2}>
+        <Grid item>
+            <Typography variant='h3'>Dashboard</Typography>
+        </Grid>
+        <Grid item >
+            <DashboardActions/>
+        </Grid>
+        <Grid item>
+            <Experience experience={profile.experience}/>
+        </Grid>
+        <Grid item>
+            <Education education={profile.education}/>
+        </Grid>
+        
+        
+        <Button variant='outlined' onClick={()=>deleteAccount()}>
                 <i className='fa fa-user-minus'></i> Delete my Account
-            </button>
-        </div>
-        </Fragment>):(<Fragment>
+        </Button>
+        
+        </Grid>):(<Fragment>
         <Link to='/create-profile' className='btn btn-primary my-1'>Create Profile</Link>
         </Fragment>)}
    

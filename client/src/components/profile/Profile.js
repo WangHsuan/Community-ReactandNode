@@ -9,8 +9,26 @@ import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin:'0 auto',
+    width:'50rem',
+  },
+  block:{
+      border:'1px solid #f2f2f2',
+      borderRadius:'5px',
+      marginTop:'1rem',
+      boxShadow:'5px 5px 10px #e6e6e6'
+  }
+
+}));
 
 const Profile = ({getProfileById, match, profile:{profile, loading}, auth}) => {
+    const classes = useStyles();
     useEffect(()=>{
         console.log('match',match.params.id);
         getProfileById(match.params.id)
@@ -27,31 +45,36 @@ const Profile = ({getProfileById, match, profile:{profile, loading}, auth}) => {
                  </Link>
              )
             }
-            <div className='profile-grid my-1'>
-                <ProfileTop profile={profile}/>
-                <ProfileAbout profile={profile}/>
-                <div className='profile-exp bg-white p-2'>
-                    <h2 className='text-primary'>Experience</h2>
+            <Grid className={classes.root} container direction='column' spacing={2}>
+                <Grid item className={classes.block}>
+                    <ProfileTop profile={profile}/>
+                </Grid>
+                <Grid item className={classes.block}>
+                     <ProfileAbout profile={profile}/>
+                </Grid>
+        
+                <Grid item className={classes.block}>
+                    <Typography variant='h5'>Experience</Typography>
                     {profile.experience.length>0?(<Fragment>
                         {profile.experience.map(experience =>(
                             <ProfileExperience key={experience._id} experience={experience}/>
                         ))}
                         </Fragment>):(<h4>No experience credentials</h4>)}
-                </div>
+                </Grid>
 
-                <div className='profile-edu bg-white p-2'>
-                    <h2 className='text-primary'>Education</h2>
+                <Grid item className={classes.block}>
+                <Typography variant='h5'>Education</Typography>
                     {profile.education.length>0?(<Fragment>
                         {profile.education.map(education =>(
                             <ProfileEducation key={education._id} education={education}/>
                         ))}
                         </Fragment>):(<h4>No education credentials</h4>)}
-                </div>
+                </Grid>
 
-                {profile.githubusername && (
+                {/* {profile.githubusername && (
                     <ProfileGithub username={profile.githubusername}/>
-                )}
-            </div>
+                )} */}
+            </Grid>
 
             
             </Fragment>}

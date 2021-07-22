@@ -3,49 +3,76 @@ import {Link}from 'react-router-dom';
 import {connect} from 'react-redux';
 import {logout} from '../../actions/auth';
 import PropTypes from 'prop-types';
+//Material ui 
+import Button from '@material-ui/core/Button';
+import { Typography } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { makeStyles } from '@material-ui/core/styles';
+import GroupIcon from '@material-ui/icons/Group';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import Box from '@material-ui/core/Box';
+
+
+const useStyles = makeStyles((theme)=>({
+    root:{
+        height:'60px',
+        borderBottom:'1px solid black',
+        padding:'5px'
+    },
+    button:{
+        paddingTop: '5px'
+    }
+}))
 
 const Navbar = ({auth:{isAuthenticated, loading},logout}) => {
-
+    const classes = useStyles();
     const authLinks = (
-        <ul>
-            <li>
-            <Link to="/profiles">
-                Developers  
-            </Link>
-            <Link to="/posts">
-                Posts  
-            </Link>
-            </li>
-            <li>
-            <Link to="/dashboard">
-                <i className="fas fa-user">{' '}
-                <span className="hide-sm">Dashboard</span>
-                </i>
-            </Link>
-            </li>
-            <li>
-                <a onClick={logout} href="#!">
-                <i className="fas fa-sign-out-alt"></i>{' '}
-                <span className="hide-sm">Logout</span>
-                </a>
-            </li>
-        </ul>
+        <Grid container spacing={3}>
+            <Grid item>
+                <Box component={Link}  to="/profiles"> Developers </Box>
+            </Grid>
+            <Grid item>
+                <Box component={Link}  to="/posts"> Posts </Box>
+            </Grid>
+            <Grid item>
+                <Box component={Link}  to="/dashboard"> Dashboard </Box>
+            </Grid>
+            <Grid item>
+                <Box onClick={logout}> <ExitToAppIcon/> </Box>
+            </Grid>
+            
+
+        </Grid>
     );
     const guestLinks = (
-        <ul>
-                <li><Link to="/profiles">Developers</Link></li>
-                <li><Link to="/register">Register</Link></li>
-                <li><Link to="/login">Login</Link></li>
-         </ul>
+        <Grid container spacing={3}>
+        <Grid item>
+            <Box component={Link}  to="/profiles" >
+               <GroupIcon/>      
+           </Box>
+        </Grid>
+       
+        <Grid item>
+            <Box component={Link}  to="/login">Log in </Box>
+        </Grid>
+        
+
+    </Grid>
     )
 
     return (
-    <nav className="navbar bg-dark">
-            <h1>
-                <Link to="/"><i className="fas fa-code"></i> DevConnector</Link>
-            </h1>
+    <Grid container justifyContent='space-around' alignItems='center' className = {classes.root}>
+           <Grid item>
+                <Box component={Link} to="/" >
+                    <Typography variant='h5' >Dev In Brisbane</Typography>
+                </Box>
+           </Grid>
+           <Grid item>
             {!loading&&(<Fragment>{isAuthenticated?authLinks:guestLinks}</Fragment>)}
-    </nav>
+           </Grid>
+        
+    </Grid>
     )
 }
 
