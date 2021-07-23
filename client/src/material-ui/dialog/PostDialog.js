@@ -102,7 +102,7 @@ function PostForm({addPost}) {
             <textarea
                 className={classes.textField}
                 name="text"
-                placeholder="Create a post"
+                
                 value={text}
                 onChange={e=>setText(e.target.value)}
                 required

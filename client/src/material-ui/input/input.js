@@ -47,9 +47,19 @@ export const CustomTextField = ({ label, ...props }) => {
             </label>
         </Grid>
         <Grid item xs={11}>
-           <Typography variant='caption'>
-                  本人願意接受關於蓋璞及關聯零售公司,關於產品、服務、促銷活動、有獎活動、會員積分活動、生日禮物盒優惠劵、調查、新店開張的資訊，並且同意為以上目的使用本人的個人資訊。
-          </Typography>
+          <Box component='div'>
+              <Typography variant='caption'>
+                      Test Account: testMan@gmail.com
+              </Typography>
+
+          </Box>
+          <Box component='div'>
+              <Typography variant='caption'>
+                      Test Password: 123456
+              </Typography>
+          </Box>
+          
+         
         </Grid>
       </Grid>
       

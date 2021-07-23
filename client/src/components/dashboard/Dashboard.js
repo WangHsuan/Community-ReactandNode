@@ -33,7 +33,7 @@ const Dashboard = ({getCurrentProfile, deleteAccount,auth:{user}, profile: {prof
         getCurrentProfile();
     },[getCurrentProfile,user]);
 
-    return profile == null ? <Spinner/> : <Fragment>
+    return loading || profile == null ? <Spinner/> : <Fragment>
     
     {profile!==null?(<Grid container direction='column' alignItems='center' justifyContent='center' spacing={3}>
         <Grid item>

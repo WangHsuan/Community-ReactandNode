@@ -17,7 +17,7 @@ import Box from '@material-ui/core/Box';
 const useStyles = makeStyles((theme)=>({
     root:{
         height:'60px',
-        borderBottom:'1px solid black',
+        borderBottom:'1px solid #d2d4d2',
         padding:'5px'
     },
     button:{

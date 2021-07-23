@@ -21,8 +21,9 @@ import Post from './components/post/Post';
 import SignInAndSignUpPage from 'pages/auth/SignInAndSignUpPages'
 //Redux
 import {Provider} from 'react-redux';
-import store from './store';
 import setAuthToken from './utils/setAuthToken';
+import {PersistGate} from 'redux-persist/integration/react';
+import {store, persistor}from './store';
 //material ui
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -49,6 +50,7 @@ const  App = () => {
   return (
 <Provider store={store}>
   <Router>
+  <PersistGate persistor={persistor}>
       <Fragment>
         <Navbar/>
         <Route exact path='/' component={Landing}/>
@@ -68,7 +70,8 @@ const  App = () => {
             <PrivateRoute exact path='/posts/:id' component={Post}/>
           </Switch>
         </section>
-      </Fragment>  
+      </Fragment> 
+      </PersistGate> 
   </Router>
 </Provider>
   
