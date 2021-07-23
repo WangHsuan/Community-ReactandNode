@@ -16,24 +16,24 @@ const ProfileExperience = ({experience:{company, title, location, current, to, f
     const classes = useStyles();
     return(<Grid container className={classes.root} alignItems='center'>
         <Grid item xs={3}>
-            <Typography>{company}</Typography>
+            <Typography variant='subtitle1'>{company}</Typography>
         </Grid>
         <Grid item xs={4}>
-            <Typography>{title}</Typography>
-            <Typography>
-                <Moment format='YYY/MM/DD'>{from}</Moment> - {' '}
+            <Typography variant='subtitle1'>{title}</Typography>
+            <Typography variant='caption'>
+                <Moment format='YYYY/MM/DD'>{from}</Moment> - {' '}
                 {!to?'Now':<Moment format='YYYY/MM/DD'>{to}</Moment>}
             </Typography>
         </Grid>
         <Grid item xs={4}>
-            <Typography>{description}</Typography>
+            <Typography variant='body2'>{description}</Typography>
         </Grid>
         
     </Grid>)
 } 
 
 ProfileExperience.propTypes = {
-    experience: PropTypes.array.isRequired
+    experience: PropTypes.object.isRequired
 }
 
 export default ProfileExperience

@@ -18,12 +18,12 @@ const ProfileEducation = ({education:{school, degree, fieldofstudy, current, to,
     const classes = useStyles();
     return(<Grid container className={classes.root} alignItems='center'>
         <Grid item xs={6}>
-            <Typography>{school}</Typography>
+            <Typography variant='subtitle1'>{school}</Typography>
         </Grid>
         <Grid item xs={4}>
-            <Typography>{degree}</Typography>
-            <Typography>
-                <Moment format='YYY/MM/DD'>{from}</Moment> - {' '}
+            <Typography variant='subtitle1'>{degree}</Typography>
+            <Typography variant='caption'>
+                <Moment format='YYYY/MM/DD'>{from}</Moment> - {' '}
                 {!to?'Now':<Moment format='YYYY/MM/DD'>{to}</Moment>}
             </Typography>
         </Grid>

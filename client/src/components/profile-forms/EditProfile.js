@@ -28,11 +28,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const SignupSchema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is Required'),
-    password: Yup.string().required('Password is Required'),
-    declaration: Yup.boolean()
-        .oneOf([true], "You must accept the terms and conditions")
+const ProfileSchema = Yup.object().shape({
+  company: Yup.string().required('company is Required'),
+  skills: Yup.string().required('skill is Required'),
 });
 const EditProfile = ({profile:{profile, loading},createProfile, getCurrentProfile,history}) => {
     const [formData, setFormData] = useState({
@@ -69,11 +67,12 @@ const EditProfile = ({profile:{profile, loading},createProfile, getCurrentProfil
           <Formik
                 enableReinitialize
                 initialValues={formData}
+                validationSchema={ProfileSchema}
                 values={formData}
                 onSubmit={async (values) => {
-                    console.log(values)
+                   
                     createProfile(values,history,true)
-                    // login(email,password);
+                   
                 }}
 
             >
@@ -85,6 +84,9 @@ const EditProfile = ({profile:{profile, loading},createProfile, getCurrentProfil
                 }) => (
                     <form onSubmit={handleSubmit}  noValidate  >
                         <Grid container spacing={3} justifyContent='center' direction='column' alignItems='center'>
+                        <Grid item xs={12}>
+                          <Typography variant='h5'>Edit Profile</Typography>
+                          </Grid>
                             <Grid item >
                                 <CustomTextField
                                     type="text"

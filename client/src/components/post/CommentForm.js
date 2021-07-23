@@ -2,38 +2,61 @@ import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {addCommet} from '../../actions/post';
+import Grid from '@material-ui/core/Grid';
+import {makeStyles} from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Avatar from '@material-ui/core/Avatar'
 
-const CommentForm = ({postId,addCommet}) => {
+const useStyles = makeStyles(theme=>({
+    root:{
+      width:'40rem',
+      margin:'5px'
+    },
+}))
+
+
+const CommentForm = ({postId,addCommet,avatar}) => {
 
     const [text,setText] = useState('');
-
+    const classes = useStyles();
     return (
-        <div className="post-form">
-        <div className="bg-primary p">
-          <h3>Leave a Commet</h3>
-        </div>
-        <form className="form my-1" onSubmit={ e=> {
+       
+        <form className={classes.root} onSubmit={ e=> {
             e.preventDefault();
             addCommet(postId, {text});
             setText('');
         }}>
-          <textarea
-            name="text"
-            cols="30"
-            rows="5"
-            placeholder="Create a post"
-            value={text}
-            onChange={e=>setText(e.target.value)}
-            required
-          ></textarea>
-          <input type="submit" className="btn btn-dark my-1" value="Submit" />
+          <Grid container>
+            <Grid item xs={1}>
+                    <Avatar src={avatar} alt='' />
+              </Grid>
+              <Grid item xs={4}>
+              <TextField
+                  name="text"
+                  placeholder="Create a post"
+                  value={text}
+                  onChange={e=>setText(e.target.value)}
+                  required
+                />
+              </Grid>
+              <Grid item xs={2}>
+                <Button type="submit" variant='outlined' >Submit</Button>
+              </Grid>
+          </Grid>
+        
         </form>
-      </div>
+     
     )
 }
 
 CommentForm.propTypes = {
-    addCommet: PropTypes.func.isRequired
+    addCommet: PropTypes.func.isRequired,
+    comment:PropTypes.object.isRequired,
 }
 
-export default connect(null, {addCommet})(CommentForm);
+const mapStateToProps = state => ({
+  avatar:state.auth.user.avatar
+})
+
+export default connect(mapStateToProps, {addCommet})(CommentForm);

@@ -33,11 +33,11 @@ const Dashboard = ({getCurrentProfile, deleteAccount,auth:{user}, profile: {prof
         getCurrentProfile();
     },[getCurrentProfile,user]);
 
-    return loading && profile == null ? <Spinner/> : <Fragment>
+    return profile == null ? <Spinner/> : <Fragment>
     
-    {profile!==null?(<Grid container direction='column' alignItems='center' justifyContent='center' spacing={2}>
+    {profile!==null?(<Grid container direction='column' alignItems='center' justifyContent='center' spacing={3}>
         <Grid item>
-            <Typography variant='h3'>Dashboard</Typography>
+            <Typography variant='h4'>Dashboard</Typography>
         </Grid>
         <Grid item >
             <DashboardActions/>
